@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .api_wrapper import SpotifyAPI
+import requests
 
 
 def index_view(request):
@@ -8,12 +9,12 @@ def index_view(request):
     query_filter = request.GET.get('filter')
     if not query_filter:
         query_filter = 'track'
-    spotify_object = SpotifyAPI('2a4194d5a9a24d3abb3d488d3541d014','2fd9edb269ad48c6af32af22a123d4ba')
-    items = spotify_object.search(query=str(search_query), operator=None, operator_query=None, search_type=query_filter )
+    spotify_object = SpotifyAPI('e8903904826840e2b1423bedb7f1fd85','3d7f7fc0641646d1ba634e0fac660a9c')
+    items = spotify_object.search(query={query_filter : search_query}, operator=None, operator_query=None, search_type=query_filter )
+
     context = {
-    	'count' : count,
-        'items': items,
-        'q': search_query,
+        'items' : items,
+        'q' : search_query,
         'filter' : query_filter
     }
     return render(request, 'musify/index.html', context)
